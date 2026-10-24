@@ -1,0 +1,259 @@
+definitions:
+  go-projects.User:
+    properties:
+      birthDate:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: string
+      lastName:
+        type: string
+      nationalCode:
+        type: string
+      password:
+        type: string
+      profileImage:
+        type: string
+      username:
+        type: string
+    type: object
+  main.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: A RESTful API for managing users.
+  title: User Management API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login with username and password
+      parameters:
+      - description: Username and password
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login user
+  /users:
+    delete:
+      description: Delete a user by ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a user
+    get:
+      description: Get information of the currently authenticated user
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-projects.User'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get current user
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new user with profile image
+      parameters:
+      - description: First name
+        in: formData
+        name: firstName
+        required: true
+        type: string
+      - description: Last name
+        in: formData
+        name: lastName
+        required: true
+        type: string
+      - description: National code
+        in: formData
+        name: nationalCode
+        required: true
+        type: string
+      - description: Birth date (Jalali)
+        in: formData
+        name: birthDate
+        required: true
+        type: string
+      - description: Username
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: Profile image
+        in: formData
+        name: profileImage
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a user
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update user information by ID with optional profile image
+      parameters:
+      - description: First name
+        in: formData
+        name: firstName
+        required: true
+        type: string
+      - description: Last name
+        in: formData
+        name: lastName
+        required: true
+        type: string
+      - description: National code
+        in: formData
+        name: nationalCode
+        required: true
+        type: string
+      - description: Birth date (Jalali)
+        in: formData
+        name: birthDate
+        required: true
+        type: string
+      - description: Profile image
+        in: formData
+        name: profileImage
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a user
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

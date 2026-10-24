@@ -1,0 +1,22 @@
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Uploaded files
+uploads/
+*.log
+
+# Executables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+dbtest/
